@@ -8,6 +8,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   imports: [RouterOutlet, NavbarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
+  
 })
 export class AppComponent {
   title = 'prueba-rocket';

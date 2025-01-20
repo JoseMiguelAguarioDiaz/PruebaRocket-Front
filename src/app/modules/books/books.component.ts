@@ -11,14 +11,32 @@ import { BookCardComponent } from './components/book-card/book-card.component';
   styleUrl: './books.component.css'
 })
 export class BooksComponent {
-  books: Book[];
+  books: Book[] = [];
+  errorMessage: string | null = null;
   bookService = inject(BookService);
 
-  constructor(){
-    this.books = this.bookService.getBooks(); 
+  /* constructor(){
+    this.books = this.bookService.getBooks() 
   }
 
   ngOnInit(): void {
     this.books = this.bookService.getBooks();
+  } */
+
+  ngOnInit(): void {
+    this.bookService.getBooks().subscribe({
+      next: (response) => {
+        if (!response.error) {
+          this.books = response.data || [];
+          console.log('Libros cargados:', this.books);
+        } else {
+          this.errorMessage = response.message || 'Error al cargar libros';
+        }
+      },
+      error: (err) => {
+        console.error('Error:', err);
+        this.errorMessage = 'Error al comunicarse con el servidor';
+      }
+    });
   }
 }
